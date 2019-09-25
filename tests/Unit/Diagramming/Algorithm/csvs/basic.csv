@@ -1,0 +1,9 @@
+Id,Name,Shape Library,Page ID,Contained By,Group,Line Source,Line Destination,Source Arrow,Destination Arrow,Text Area 1
+1,Page,,,,,,,,,Page 1
+2,AWS Cloud,AWS Architecture 2019,1,,,,,,,AWS Cloud
+3,Region,AWS Architecture 2019,1,2,,,,,,eu-west-1
+4,Public Subnet,AWS Architecture 2019,1,2|3,,,,,,Public Subnet
+5,Private Subnet,AWS Architecture 2019,1,2|3,,,,,,Private Subnet
+6,Amazon EC2,AWS Architecture 2019,1,2|3|4,,,,,,Amazon EC2
+7,Amazon RDS,AWS Architecture 2019,1,2|3|5,,,,,,Amazon RDS
+8,Line,,1,,,6,7,Arrow,Arrow,
