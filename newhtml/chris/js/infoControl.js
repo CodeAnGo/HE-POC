@@ -47,7 +47,7 @@ class infoControl {
 			</div>
 		`;
         this._container = document.createElement('div');
-        this._container.className = 'mapboxgl-ctrl controlbox infobox';
+        this._container.className = 'mapboxgl-ctrl controlbox capheight';
 		this._container.innerHTML = html;
 	}
     onAdd(map) {
@@ -65,8 +65,12 @@ var control = null;
 map.on('click', 'roadworks', function(e) {
 	var mark = e.features[0];
 	var i = mark.properties.id;
-	var desc = eval(mark.properties.desc);
-	var lanes = eval(mark.properties.lanes);
+	showInfoBox(i);
+});
+
+function showInfoBox(i) {
+	var desc = roadworks[i].formatDesc;
+	var lanes = roadworks[i].eventLanes;
 	
 	if (i == j) {
 		removeInfo();
@@ -79,7 +83,7 @@ map.on('click', 'roadworks', function(e) {
 		map.addControl(control, 'bottom-right');
 		j = i;
 	}
-});
+}
 
 function removeInfo() {
 	map.removeControl(control);

@@ -29,9 +29,7 @@ map.on('load', function() {
 					},
 					"properties": {
 						"id": i,
-						"color": "#fff700",
-						"desc": mark.formatDesc,
-						"lanes": mark.eventLanes
+						"color": "#fff700"
 					}
 				});
 				break;
@@ -44,9 +42,7 @@ map.on('load', function() {
 					},
 					"properties": {
 						"id": i,
-						"color": "#ff0000",
-						"desc": mark.formatDesc,
-						"lanes": mark.eventLanes
+						"color": "#ff0000"
 					}
 				});
 				break;
@@ -108,13 +104,15 @@ function getFilteredRoadworks() {
 	else {
 		l = directionMarkers.filter(v => datetimeMarkers.includes(v));
 		l = l.filter(v => severityMarkers.includes(v));
-	}
-	l.push(-1);
-	
+	}	
 	return l;
 }
 
 function refreshMarkers() {
 	var l = getFilteredRoadworks();
+	l.push(-1);
+
 	map.setFilter('roadworks', ['match', ['get', 'id'], l, true, false]);
+	if (worksControl != null)
+		showRouteRoadworks();
 }

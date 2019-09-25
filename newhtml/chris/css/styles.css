@@ -20,11 +20,9 @@ html, body {
 
 .blue {
 	background-color: #54b0ff;
-	color: #54b0ff;
 }
 .pink {
 	background-color: #ff7d89;
-	color: #ff7d89;
 }
 .green {
 	background-color: #65e81a;
@@ -99,7 +97,7 @@ html, body {
 	background-color: black;
 }
 
-.infobox {
+.capheight {
 	max-height: 300px;
 	overflow-y: auto;
 }
@@ -120,4 +118,9 @@ html, body {
 	font-size: 16px;
 	border: none;
 	background-color: white;
+}
+
+.infoButton {
+	border-radius: 50%;
+	padding: 10px;
 }
