@@ -20,7 +20,7 @@ class SeverityControl {
         this._map = undefined;
     }
 }
-map.addControl(new SeverityControl(), 'top-right');
+map.addControl(new SeverityControl(), 'top-left');
 
 var severityMarkers = null;
 function severityFilter() {
