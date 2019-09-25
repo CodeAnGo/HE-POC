@@ -1,5 +1,5 @@
-
 //input type="datetime-local" name="date" id="date" onchange="displayDateFeatures()">
+//Mapboxgl IControl class to select a dateTime, used when choosing which roadworks to display
 class DateControl {
 
     onAdd(map) {

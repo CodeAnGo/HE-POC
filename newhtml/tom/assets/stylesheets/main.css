@@ -8,7 +8,8 @@ html, body {
     height: 100%;
 }
 
-
+/* dateTime input box css
+TODO: look nicer*/
 .date {
     width: 33.33333%;
     min-width: 300px;
