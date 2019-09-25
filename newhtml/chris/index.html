@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Highways England - Route Mapping</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
+	<script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css' rel='stylesheet' />
+	<link href="CSS/styles.css" rel="stylesheet" />
+	<script src="data/roadworks.json"></script>
+	<script src="data/weather.json"></script>
+</head>
+<body>
+
+<div class="header">
+	<img src="http://highwaysengland.co.uk/wp-content/uploads/2017/06/he-logo-200px.png" />
+</div>
+	
+<div id='map'></div>
+
+<script src="js/mapInitialise.js"></script>
+<script src="js/dateControl.js"></script>
+<script src="js/directionsControl.js"></script>
+<script src="js/routeRoadwrksControl.js"></script>
+<script src="js/severityControl.js"></script>
+<!--<script src="js/weatherControl.js"></script>-->
+<script src="js/infoControl.js"></script>
+
+</body>
+</html>
