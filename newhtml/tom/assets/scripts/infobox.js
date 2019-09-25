@@ -28,10 +28,10 @@ function getDescriptionHTML(desc, inclHeadings) {
         var curDesc = desc[i].split(/:(.+)/);
         if (inclHeadings.includes(curDesc[0])) {
             //add heading and content
-            descHTML = descHTML.concat('<div><h5>' + curDesc[0] + '</h5><p>' + curDesc[1] + '</p></div>');
+            descHTML += '<div><h5>' + curDesc[0] + '</h5><p>' + curDesc[1] + '</p></div>';
         }
     }
-    descHTML = descHTML.concat('</div>');
+    descHTML += '</div>';
     return descHTML;
 }
 
@@ -40,26 +40,26 @@ function getCalendarHTML(periods) {
 
     //TODO: put error checking on period length
 
-    //TODO: change to array of class strings, gets rid of if statements later on
-    var activeDates = [];
-    var activeStartDates = [];
-    var activeEndDates = [];
+    //initialise array of classnames for each date
+    var dateClassNames = [];
+    var len = 32;
+    for (var i = 0; i < len; i++) {
+        dateClassNames.push("");
+    }
 
-    //initialise start + endPeriod as they are used later
-    var startPeriod = new Date(periods[0].startPeriod);
-    var endPeriod = new Date(periods[0].endPeriod);
+    var startPeriod;
+    var endPeriod;
     for (var i in periods) {
-
         startPeriod = new Date(periods[i].startPeriod);
         var startDate = startPeriod.getDate();
-        activeStartDates.push(startDate);
+        dateClassNames[startDate] += "active-start ";
 
         endPeriod = new Date(periods[i].endPeriod);
         var endDate = endPeriod.getDate();
-        activeEndDates.push(endDate);
+        dateClassNames[endDate] += "active-end ";
 
         for (var j = startDate; j < endDate + 1; j++) {
-            activeDates.push(j);
+            dateClassNames[j] += "active ";
         }
     }
 
@@ -67,8 +67,10 @@ function getCalendarHTML(periods) {
     var curMonth = startPeriod.toLocaleString('default', {
         month: 'long'
     });
-    var monthOffset = new Date(startPeriod.getFullYear(), startPeriod.getMonth(), 1).getDay() + 6;
-    var daysInMonth = new Date(startPeriod.getFullYear(), startPeriod.getMonth(), 0).getDate();
+
+    console.log(startPeriod.getMonth());
+    var monthOffset = (new Date(startPeriod.getFullYear(), startPeriod.getMonth(), 1).getDay()+6)%7;
+    var daysInMonth = new Date(startPeriod.getFullYear(), startPeriod.getMonth()+1, 0).getDate();
 
     //start HTML with month and year
     var scheduleHTML = `
@@ -76,10 +78,7 @@ function getCalendarHTML(periods) {
       <ul>
         <li>` + curMonth + `<br><span style="font-size:18px">` + startPeriod.getFullYear() + `</span></li>
       </ul>
-    </div>`;
-
-    //day labels, open date section of calendar
-    scheduleHTML = scheduleHTML.concat(`
+    </div>
     <ul class="weekdays">
         <li>Mo</li>
         <li>Tu</li>
@@ -90,35 +89,42 @@ function getCalendarHTML(periods) {
         <li>Su</li>
     </ul>
 
-    <ul class="days">
-    `);
+    <ul class="days">`;
 
     //for each cell in date grid, 6 rows, 7 days, 6*7=42
-    for (var i = 1; i <= 43; i++) {
+    for (var i = 1; i <= 42; i++) {
+        var date = i - monthOffset;
         //if date is more than 0 and less than days in month
-        if (0 < i - monthOffset && i - monthOffset < daysInMonth) {
-
-            //TODO: tidy by defining class strings instead of different arrays
-            if (activeDates.includes(i - monthOffset)) {
-                var classString = "active ";
-                if (activeStartDates.includes(i - monthOffset)) {
-                    classString = classString.concat("active-start ");
-                }
-                if (activeEndDates.includes(i - monthOffset) && !(activeStartDates.includes(i - monthOffset+1))) {
-                    classString = classString.concat("active-end ");
-                }
-                scheduleHTML = scheduleHTML.concat('<li class="' + classString + '">' + (i - monthOffset) + '</li>');
-            } else {
-                scheduleHTML = scheduleHTML.concat('<li>' + (i - monthOffset) + '</li>');
-            }
+        if (0 < date && date <= daysInMonth) {
+            scheduleHTML += '<li class="' + dateClassNames[date] + '">' + (date) + '</li>';
         } else {
-            scheduleHTML = scheduleHTML.concat('<li></li>');
+            scheduleHTML += '<li></li>';
         }
     }
 
     //close list of dates and div
-    scheduleHTML = scheduleHTML.concat('</ul></div>');
+    scheduleHTML += '</ul>';
 
+    return scheduleHTML;
+}
+
+//returns HTML for multiple calendars if periods are across several months
+function getMultiCalendarHTML(periods) {
+    //TODO: decide on clearer naming
+    scheduleHTML = '';
+
+    //check if period is in same month as previous. if not display current group and start new one. add curPeri
+    var curPeriodGroup = [periods[0]];
+    for (var i = 1; i < periods.length; i++) {
+        var curPeriod = periods[i];
+        if (new Date(curPeriod.startPeriod).getMonth() != new Date(periods[i - 1].startPeriod).getMonth()) {
+            scheduleHTML += getCalendarHTML(curPeriodGroup) + '<hr>';
+            curPeriodGroup = [];
+        }
+        //add curPeriod to periodGroup
+        curPeriodGroup.push(curPeriod);
+    }
+    scheduleHTML += getCalendarHTML(curPeriodGroup) + '<hr></div>';
     return scheduleHTML;
 }
 
@@ -140,23 +146,24 @@ function getScheduleHTML(periods) {
         var curStartPeriod = new Date(curPeriod.startPeriod);
         var curEndPeriod = new Date(curPeriod.endPeriod);
 
+        //TODO: handle different types of period. e.g. 06:00 - 22:00 on multiple days in a row
         //if start and end on same date just display "date /n startTime - endTime"
         if (getDateString(curStartPeriod) == getDateString(curEndPeriod)) {
-                scheduleHTML = scheduleHTML.concat('<h5 class="time-slot">' + getDateString(curStartPeriod) + `</h5>
+            scheduleHTML += '<h5 class="time-slot">' + getDateString(curStartPeriod) + `</h5>
                     <div class="event">
                         <h5>` + getTimeString(curStartPeriod) + ' - ' + getTimeString(curEndPeriod) + `</h5>
-                    </div>`);
+                    </div>`;
         } else {
             //if start and end date different display "startDate - endDate /n startDate startTime - endDate endTime"
-            scheduleHTML = scheduleHTML.concat('<h5 class="time-slot">' + getDateString(curStartPeriod) + ' - ' + getDateString(curEndPeriod) + `</h5>
+            scheduleHTML += '<h5 class="time-slot">' + getDateString(curStartPeriod) + ' - ' + getDateString(curEndPeriod) + `</h5>
                 <div class="event">
                     <h5>` + getDateString(curStartPeriod) + ' ' + getTimeString(curStartPeriod) + ' - ' + getDateString(curEndPeriod) + ' ' + getTimeString(curEndPeriod) + `</h5>
-                </div>`);
+                </div>`;
         }
 
     }
     //close div
-    scheduleHTML = scheduleHTML.concat('</div>');
+    scheduleHTML += '</div>';
 
     return scheduleHTML;
 }
@@ -165,33 +172,45 @@ function getScheduleHTML(periods) {
 function getLanesHTML(lanes) {
 
     //open div, add heading, open row
-    lanesHTML = '<hr><div><h3>Lanes</h3><div class="lanes row">';
-
-    //TODO: split columns evenly not using hacky bootstrap
-    //bootstrap uses 12 columns. To get width divide 12 by number of lanes
-    var colWidth = 12 / lanes.length;
-    //catch is divided by 5
-    if (lanes.length == 5) {
-        colWidth = 2;
-    }
+    lanesHTML = '<hr><div><h3>Lanes</h3><table><tr>';
 
     //for each lane
     for (var i in lanes) {
         var curLane = lanes[i];
-        //TODO: set class beforehand instead of using laneStatus as className
+
+        //get correct colour based on laneStatus
+        var className = "";
+        var status = ""
+        switch (curLane.laneStatus) {
+            case 'HARD_SHOULDER_RUNNING':
+            case 'NORMAL':
+                status = "Normal";
+                className = 'green';
+                break;
+            case 'UNKNOWN':
+            case 'AFFECTED':
+                status = "Affected";
+                className = 'yellow';
+                break;
+            case 'CLOSED':
+                status = "Closed";
+                className = 'red';
+                break;
+        }
+
         //add html to set up column, create div with relevant class name and display information
-        lanesHTML = lanesHTML.concat(`
-            <div class="col-lg-` + colWidth + `">
-                <div class = "lane ` + curLane.laneStatus + `">
+        lanesHTML += `
+            <td>
+                <div class = "lane ` + className + `">
                     <h5> ` + curLane.laneName + ` </h5>
-                    <p> ` + curLane.laneStatus + ` </p>
+                    <p> ` + status + ` </p>
                 </div>
-            </div>
-            `);
+            </td>
+            `;
     }
 
     //close row and div
-    lanesHTML = lanesHTML.concat('</div></div>');
+    lanesHTML = lanesHTML.concat('</tr></table></div>');
 
     return lanesHTML;
 }
@@ -214,29 +233,17 @@ function updateInfoBox(marker) {
 
         //TODO: move into scheduleHTML
         //initialise ScheduleHTML
-        scheduleHTML = '<hr><div><h3>Schedule</h3>'
+        scheduleHTML = '<hr><div><h3>Schedule</h3>';
 
         //remove Schedule and Periods from description as they are displayed as a calander and schedule instead
         descriptionFilter = ["Location ", "Reason "];
 
-        //TODO: move logic to getCalendarHTML
-        //check if period is in same month as previous. If it is it add it to period group, if not display current group and start new one
-        var curPeriods = [periods[0]];
-        for (var i = 1; i < periods.length; i++) {
-            var tmpPeriod = periods[i];
-            if (new Date(tmpPeriod.startPeriod).getMonth() === new Date(periods[i - 1].startPeriod).getMonth()) {
-                curPeriods.push(tmpPeriod);
-            } else {
-                scheduleHTML = scheduleHTML.concat(getCalendarHTML(curPeriods));
-                curPeriods = [];
-            }
-            curPeriods.push(tmpPeriod);
-        }
+        scheduleHTML += getMultiCalendarHTML(periods);
 
         //add calendar of last period group, add hr, add schedule, close div
-        scheduleHTML = scheduleHTML.concat(getCalendarHTML(curPeriods) + '<hr>');
-        scheduleHTML = scheduleHTML.concat(getScheduleHTML(periods));
-        scheduleHTML = scheduleHTML.concat('</div>');
+
+        scheduleHTML += getScheduleHTML(periods);
+        scheduleHTML += '</div>';
     }
 
     //get description and relevant HTML

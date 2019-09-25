@@ -21,5 +21,5 @@ function periodsToReadablePeriods(periods) {
         var endDate = new Date(periods[i].endPeriod);
         readablePeriods.push("startDate: " + startDate + " endDate: " + endDate);
     }
-    return dates;
+    return readablePeriods;
 }

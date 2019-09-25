@@ -1,15 +1,14 @@
 //TODO: decide on feature/ marker naming convention
 //TODO: change functions to take set of data and filter out not relevant items, then create function to convert to featureCollection
 
-//takes in a featureCollection of markers with desription, severity, fullClosure, lanes and periods properties and displays them on the map. Also adds clickEvent listener
+//takes in a featureCollection of markers with desription, fullClosure, fullClosure, lanes and periods properties and displays them on the map. Also adds clickEvent listener
 function displayMarkers(featureCollection) {
     // add markers to map
     //TODO: remove inline function
     featureCollection.forEach(function(marker) {
-        //TODO: severity is no longer severity, just fullClosure boolean
         // create a HTML element for each feature
         var el = document.createElement("div");
-        switch (marker.properties.severity) {
+        switch (marker.properties.fullClosure) {
             case false:
                 el.className = "marker marker-roadworks";
                 break;
@@ -29,8 +28,8 @@ function displayMarkers(featureCollection) {
 }
 
 //adds newFeature to the end of featureCollection and returns new collection
-function addFeatures(featureCollection, newFeature) {
-
+function addFeature(featureCollection, newFeature) {
+    
     // push new feature to the collection
     featureCollection.push({
         "type": "Feature",
@@ -40,7 +39,6 @@ function addFeatures(featureCollection, newFeature) {
         },
         "properties": {
             "description": newFeature.formatDesc,
-            "severity": newFeature.fullClosure,
             "fullClosure": newFeature.fullClosure,
             "lanes": newFeature.eventLanes,
             "periods": newFeature.periods
@@ -72,7 +70,7 @@ function getFeaturesOnRoad(step) {
                         var bound = 0.05;
                         if (data[itemIndex].longitude - bound < step.intersections[intersectionIndex].location[0] && step.intersections[intersectionIndex].location[0] < data[itemIndex].longitude + bound &&
                             data[itemIndex].latitude - bound < step.intersections[intersectionIndex].location[1] && step.intersections[intersectionIndex].location[1] < data[itemIndex].latitude + bound) {
-                            featureCollection = addFeatures(featureCollection, data[itemIndex]);
+                            featureCollection = addFeature(featureCollection, data[itemIndex]);
                         }
                     }
 
@@ -113,7 +111,7 @@ function displayDateFeatures() {
         //if the currently selected date is within one of the periods add feature to feature collection
         for (var periodIndex in data[itemIndex].periods) {
             if (data[itemIndex].periods[periodIndex].startPeriod < date && date < data[itemIndex].periods[periodIndex].endPeriod) {
-                featureCollection = addFeatures(featureCollection, data[itemIndex]);
+                featureCollection = addFeature(featureCollection, data[itemIndex]);
             }
         }
     }

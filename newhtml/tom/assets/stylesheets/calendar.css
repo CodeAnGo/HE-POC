@@ -59,13 +59,15 @@ body {font-family: Verdana, sans-serif;}
   list-style-type: none;
   display: inline-block;
   width: 50px;
+  min-height: 20px;
   text-align: center;
   margin-bottom: 5px;
   font-size:12px;
   color: #777;
 }
 
-/* Highlight the "current" day */
+/* Highlight the "current" day
+TODO: set before/after to align borders/ stop multiple borders*/
 .active {
   background: #78bced;
   color: white !important;
@@ -73,9 +75,9 @@ body {font-family: Verdana, sans-serif;}
 }
 
 .active-start {
-    border-left: 2px solid black;
+    border-left: 4px solid black;
 }
 
-.active-end {
-    border-right: 2px solid black;
+li.active-end + li {
+    border-left: 4px solid black;
 }
