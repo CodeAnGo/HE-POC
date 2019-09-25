@@ -1,0 +1,47 @@
+.marker-info-box {
+    padding: 15px;
+    margin: 15px;
+    width: 400px;
+    max-height: 100%;
+    background-color: #FFFFFF;
+    overflow-y: auto;
+}
+
+.mapboxgl-ctrl-top-right, .mapboxgl-ctrl-top-left {
+    height: 100%;
+}
+
+
+.event {
+    background-color: #78bced;
+    padding: 5px 10px 3px 10px;
+    margin-top: 10px;
+}
+
+.CLOSED {
+    background-color: #ff0f0f;
+}
+
+.NORMAL, .HARD_SHOULDER_RUNNING {
+    background-color: #2bda26;
+}
+
+.AFFECTED {
+    background-color: #FFFF00;
+}
+
+.lane {
+    margin: 0px;
+    padding: 4px ;
+    height: 100px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
+    padding: 4px;
+}
+
+.row {
+    margin: 0px;
+}

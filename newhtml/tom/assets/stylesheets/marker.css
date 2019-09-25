@@ -1,0 +1,28 @@
+.marker {
+    cursor: pointer;
+}
+
+.marker-roadworks {
+    background-image: url('http://westewellandruxley.org.uk/wp-content/uploads/2016/06/Roadsigns.png');
+    background-size: cover;
+    width: 30px;
+    height: 27px;
+}
+
+.marker-closed {
+    background-image: url('https://www.iconsdb.com/icons/preview/black/warning-4-xxl.png');
+    background-color: #FFFF00;
+    background-size: cover;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.mapboxgl-popup {
+    max-width: 400px;
+}
+
+.mapboxgl-popup-content {
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+}
