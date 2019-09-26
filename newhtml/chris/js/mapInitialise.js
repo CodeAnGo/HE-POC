@@ -1,4 +1,8 @@
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3Jpc2RtIiwiYSI6ImNrMHFqdDk1bDA4cWozZ3BtYmxwdG12d2MifQ.OfD_9izCQMDuWrst98ZW_A';
+
+//bounds to map
+var centrePoint = [-1.464858, 52.561911];
+var bounds = [[centrePoint[0]-10.5,centrePoint[1]-3.5],[centrePoint[0]+10.5,centrePoint[1]+3.5]];
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
@@ -7,8 +11,9 @@ var map = new mapboxgl.Map({
     //----------------------------------------------------------
     //----------------------------------------------------------
     center: [-0.118092, 51.509865],
+    zoom: 8,
+    maxBounds: bounds
     //----------------------------------------------------------
-    zoom: 8
 });
 
 map.on('load', function() {
