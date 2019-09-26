@@ -69,24 +69,30 @@ map.on('load', function() {
 		}
 	});
 	var today = new Date();
-	
+
 	var dd = String(today.getDate()).padStart(2, '0');
 	var mm = String(today.getMonth() + 1).padStart(2, '0');
 	var yyyy = today.getFullYear();
 	var dateinput = document.getElementById("dateselect");
 	dateinput.value = yyyy + '-' + mm + '-' + dd;
-	
+
 	var hh = String(today.getHours()).padStart(2, '0');
 	var mm = String(today.getMinutes()).padStart(2, '0');
 	var timeinput = document.getElementById("timeselect");
 	timeinput.value = hh + ':' + mm;
-	
+
 	dateFilter();
 });
 
+//CODE FOR GETTING LIST OF MARKERS TO SHOW -----------------------ADD HERE LUKE
+//----------------------------------------------------------
+//----------------------------------------------------------
+//----------------------------------------------------------
+
+//creates list of intersection of valid date, on route and serverity selected in radial box
 function getFilteredRoadworks() {
 	var l;
-	
+
 	if (directionMarkers == null && datetimeMarkers == null && severityMarkers == null)
 		l = [];
 	else if (directionMarkers == null && datetimeMarkers == null)
@@ -104,7 +110,7 @@ function getFilteredRoadworks() {
 	else {
 		l = directionMarkers.filter(v => datetimeMarkers.includes(v));
 		l = l.filter(v => severityMarkers.includes(v));
-	}	
+	}
 	return l;
 }
 
@@ -112,7 +118,10 @@ function refreshMarkers() {
 	var l = getFilteredRoadworks();
 	l.push(-1);
 
+    //filters roadworks based on matching id's
 	map.setFilter('roadworks', ['match', ['get', 'id'], l, true, false]);
-	if (worksControl != null)
+	if (worksControl != null){
+        //updates info box. Not relevant to Laravel project
 		showRouteRoadworks();
+    }
 }
