@@ -16,7 +16,55 @@ class WeatherControl {
         this._map = undefined;
     }
 }
-map.addControl(new WeatherControl(), 'top-right');
+
+var weatherControl = null;
+mapDirections.on('route', function(e) {
+	if (map.getSource('weatherData'))
+		map.removeSource('weatherData');
+	
+	var route0 = e['route'][0];
+	var route1 = e['route'][1];
+	var routes = [route0, route1];
+	
+	var features = [];
+	//routes.forEach(function(route) {
+		route0.legs[0].steps.forEach(function(step) {
+			features.push({
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": [step.intersections[0].location[0], step.intersections[0].location[1]]
+				},
+				"properties": {
+					"distance": step.distance / 1600
+				}
+			});
+		});
+	//});
+	map.addSource('weatherData', {
+		"type": "geojson",
+		"data": {
+			"type": "FeatureCollection",
+			"features": features
+		}
+	});
+	//weatherControl = new WeatherControl();
+	//map.addControl(weatherControl, 'bottom-left');
+	features.forEach(function(feature) {
+		var latlong = feature.geometry.coordinates[0] + ',' + feature.geometry.coordinates[1];
+		getWeather(latlong, document.getElementById('dateselect').value, feature.properties.distance);
+	});
+	
+	//Do something with time value
+	//May be out of sync as it waits for json to load from api
+});
+/*
+mapDirections.on('clear', function() {
+	map.removeControl(weatherControl);
+	weatherControl = null;
+	if (map.getLayer('weather'))
+		map.removeLayer('weather');
+});
 
 function weatherLayer() {
 	var weatherbox = document.getElementById("weather");
@@ -26,9 +74,9 @@ function weatherLayer() {
 			"type": "circle",
 			"source": "weatherData",
 			"paint": {
-				"circle-radius": 20,
-				"circle-color": "#0000ff",
-				"circle-opacity": 0.4
+				"circle-radius": 10,
+				"circle-color": "#111111",
+				"circle-opacity": 0.6
 			},
 		});
 	} else {
@@ -36,28 +84,51 @@ function weatherLayer() {
 	}
 }
 
-map.on('load', function() {
-	//GET BETTER WEATHER DATA (CURRENT)
-	var features = [];
-	weather.forEach(function(location) {
-		
-		features.push({
-			"type": "Feature",
-			"geometry": {
-				"type": "Point",
-				"coordinates": [location.city.coord.lon, location.city.coord.lat]
-			},
-			"properties": {
-				"datetime": ,
-				"rain": 
+class WeatherInfoControl {
+	constructor(data) {
+		this._container = document.createElement('div');
+        this._container.className = 'mapboxgl-ctrl controlbox';
+        this._container.innerHTML = data;
+	}
+    onAdd(map) {
+        this._map = map;
+        return this._container;
+    }
+    onRemove() {
+        this._container.parentNode.removeChild(this._container);
+        this._map = undefined;
+    }
+}
+*/
+
+var time = 0;
+var apiKey = '758eced60b414375a78102504192609';
+function getWeather(latlong, date, distance) {
+	var url = 'http://api.worldweatheronline.com/premium/v1/weather.ashx?q=' + latlong + '&format=json&num_of_days=' + 1 + '&date=' + date + '&key=' + apiKey;
+	var req = new XMLHttpRequest();
+	req.responseType = 'json';
+	req.open('GET', url, true);
+	req.onload = function() {
+		var data = req.response;
+		if (data.data.hasOwnProperty('weather')) {
+			if (adverse(data)) {
+				//Adverse weather adds some time per mile
+				time += 1 * distance;
 			}
-		});
-	});
-	map.addSource('weatherData', {
-		"type": "geojson",
-		"data": {
-			"type": "FeatureCollection",
-			"features": features
+		} else {
+			console.log(latlong);
 		}
-	});
-});
+	};
+	req.send();
+}
+
+function adverse(data) {
+	console.log('precip: ' + data.data.currentCondition[0].precipMM);
+	console.log('vis: ' + data.data.currentCondition.visibility);
+	console.log('vis miles: ' + data.data.currentCondition.visibilityMiles);
+	console.log('snow: ' + data.data.weather[0].totalSnow_cm);
+	console.log('');
+	if (data.data.currentCondition[0].precipMM > 2.5)
+		return true;
+	return false;
+}

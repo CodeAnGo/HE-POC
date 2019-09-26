@@ -69,7 +69,6 @@ var control = null;
 map.on('click', 'roadworks', function(e) {
     var mark = e.features[0];
     var i = mark.properties.id;
-	console.log(roadworks[i]);
 	//EASY WIN. FLY TO CENTRE ON CLICKED ROADWORKS
 	//-------------------------------------------------------
     map.flyTo({
@@ -78,7 +77,7 @@ map.on('click', 'roadworks', function(e) {
             roadworks[i].latitude
         ]
     });
-showInfoBox(i);
+	showInfoBox(i);
 });
 
 function showInfoBox(i) {
