@@ -21,11 +21,11 @@ var weatherControl = null;
 mapDirections.on('route', function(e) {
 	if (map.getSource('weatherData'))
 		map.removeSource('weatherData');
-	
+
 	var route0 = e['route'][0];
 	var route1 = e['route'][1];
 	var routes = [route0, route1];
-	
+
 	var features = [];
 	//routes.forEach(function(route) {
 		route0.legs[0].steps.forEach(function(step) {
@@ -54,10 +54,7 @@ mapDirections.on('route', function(e) {
 		var latlong = feature.geometry.coordinates[0] + ',' + feature.geometry.coordinates[1];
 		getWeather(latlong, document.getElementById('dateselect').value, feature.properties.distance);
 	});
-	
-	//var latlong = features[15].geometry.coordinates[0] + ',' + features[15].geometry.coordinates[1];
-	//getWeather(latlong, document.getElementById('dateselect').value, features[15].properties.distance);
-	
+
 	//Do something with time value
 	//May be out of sync as it waits for json to load from api
 });
@@ -110,7 +107,7 @@ function getWeather(latlong, date, distance) {
 	var url = 'http://api.worldweatheronline.com/premium/v1/weather.ashx?q=' + latlong + '&format=json&num_of_days=' + 1 + '&date=' + date + '&key=' + apiKey;
 	var req = new XMLHttpRequest();
 	req.responseType = 'json';
-	req.open('GET', url, true);
+	//req.open('GET', url, true);
 	req.onload = function() {
 		var data = req.response;
 		console.log(data);
@@ -135,4 +132,9 @@ function adverse(data) {
 	if (data.data.current_condition[0].precipMM > 2.5 || data.data.current_condition[0].visibilityMiles == 6)
 		return true;
 	return false;
+}
+
+function getWeatherDataFromFiles() {
+    weatherData = [weather0, weather1, weather2, weather3, weather4, weather5, weather6, weather7, weather8, weather9, weather10];
+    console.log(weatherData);
 }
