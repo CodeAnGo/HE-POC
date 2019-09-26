@@ -121,3 +121,37 @@ TODO: look nicer*/
     background-color: #FFF;
     transform: rotate(-45deg);
 }
+.mapboxgl-ctrl-geocoder ul > li:last-child > a { border-bottom:none; }
+    .mapboxgl-ctrl-geocoder ul > li.active > a,
+    .mapboxgl-ctrl-geocoder ul > li > a:hover {
+      background-color:#353d4a !important;
+  }
+
+#mapbox-directions-origin-input{
+  background-color: #1d1c29 !important;
+}
+
+#mapbox-directions-origin-input > div:nth-child(1) > ul:nth-child(3){
+  z-index: 1000;
+  position: relative;
+}
+
+/* loading icon redirect*/
+
+.geocoder-icon-loading {
+  background-color: #1d1c29 !important;
+  }
+
+li.mapbox-directions-step:nth-child(1) > span:nth-child(1){
+  background-image: url(../img/OnMapA.png) !important;
+  background-size: 25px 20px;
+}
+
+.mapbox-directions-instructions{
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.mapbox-directions-instructions::-webkit-scrollbar {width: 10px;}
+
+.mapbox-directions-instructions::-webkit-scrollbar-track { // set style to trackbackground : #555999;border-radius: 10px;}
+.mapbox-directions-instructions::-webkit-scrollbar-thumb { // sets style to thumbbackground : rgba(255,255,255,0.5);border-radius: 10px;box-shadow:  0 0 6px rgba(0, 0, 0, 0.5);}
