@@ -20,21 +20,25 @@ class infoControl {
 					<div class="row">
 						<div class="cell road roadleftend"></div>
 			`;
-            eventlanes.forEach(function(lane) {
-                var color;
-                switch (lane.laneStatus) {
-                    case 'NORMAL':
-                        color = 'green';
-                        break;
-                    case 'AFFECTED':
-                        color = 'yellow';
-                        break;
-                    case 'CLOSED':
-                        color = 'red';
-                        break;
-                }
-                html += `
-					<div class="cell road ` + color + `">` + lane.laneName + `<br />` + lane.laneStatus + `</div>
+			eventlanes.forEach(function(lane) {
+				if (lane.laneStatus == 'HARD_SHOULDER_RUNNING')
+					status = 'NORMAL';
+				else
+					status = lane.laneStatus;
+				var color;
+				switch (status) {
+					case 'NORMAL':
+						color = 'green';
+						break;
+					case 'AFFECTED':
+						color = 'yellow';
+						break;
+					case 'CLOSED':
+						color = 'red';
+						break;
+				}
+				html += `
+					<div class="cell road ` + color + `">` + lane.laneName + `<br />` + status + `</div>
 				`;
             });
             html += `

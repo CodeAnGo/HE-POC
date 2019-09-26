@@ -43,6 +43,9 @@ html, body {
 .fullwidth {
 	width: 100%;
 }
+.wide {
+	width: 500px;
+}
 .table {
 	display: table;
 }
@@ -105,7 +108,8 @@ html, body {
 	background-color: gray;
 	border-left: 2px dashed white;
 	text-align: center;
-	padding: 20px 3px;
+	padding: 20px 5px;
+	max-width: 0;
 }
 .roadleftend {
 	border-left: none;
