@@ -19,72 +19,105 @@ TODO: look nicer*/
     clear: both;
 }
 
-.mapboxgl-ctrl-geocoder{
-  background-color: #1d1c29 !important;
-  opacity: 0.99;
-  margin-left: 50px;
-  border-color: #1d1c29 !important;
-
+.mapboxgl-ctrl-geocoder {
+    background-color: #1d1c29 !important;
+    opacity: 0.99;
+    margin-left: 50px;
+    border-color: #1d1c29 !important;
 }
 
 .mapbox-directions-origin {
-  border-radius: 5px;
+    border-radius: 5px;
 }
-.mapbox-directions-origin .mapbox-form-label{
-  background-color: #1d1c29 !important;
 
+.mapbox-directions-origin .mapbox-form-label {
+    background-color: #1d1c29 !important;
 }
 
 .mapboxgl-ctrl-geocoder input[type='text'] {
-  width: 90%;
-  color: white;
-  border-color: #1d1c29 !important;
-  background-color: #1d1c29 !important;
+    width: 90%;
+    color: white;
+    border-color: #1d1c29 !important;
+    background-color: #1d1c29 !important;
 }
 
 .mapbox-form-label {
-  width: 50px;
-  background: #1d1c29 !important;
-  line-height: 0px;
+    width: 50px;
+    background: #1d1c29 !important;
+    line-height: 0px;
 }
+
 .mapbox-form-label .directions-icon {
-  width:50px !important;
-  margin-left: 3px;
-  border-radius: 5px;
+    width: 50px !important;
+    margin-left: 3px;
+    border-radius: 5px;
 }
 
 .directions-icon-depart {
-  height: 80px !important;
-  background-image: url(../img/A.png) !important;
-  background-size: 47px 79px;
+    height: 80px !important;
+    background-image: url(../img/A.png) !important;
+    background-size: 47px 79px;
 }
 
 .directions-icon-arrive {
-  display: none;
+    display: none;
 }
 
-.directions-control{
-  color: grey !important;
+.directions-control {
+    color: grey !important;
 }
 
 .directions-reverse {
-  border-radius: 5px !important;
-  opacity: 0.9;
-  left: 250px;
-  }
-
-.mapbox-form-label{
-  color:#1d1c29 !important;
+    border-radius: 5px !important;
+    opacity: 0.9;
+    left: 250px;
 }
 
-.suggestions{
-  background-color: #1d1c29 !important;
+.mapbox-form-label {
+    color: #1d1c29 !important;
 }
 
-.geocoder-icon-close, .geocoder-icon-loading{
-  background-color:  #1d1c29 !important;
+.suggestions {
+    background-color: #1d1c29 !important;
 }
 
-.date{
-  display: none;
+.geocoder-icon-close, .geocoder-icon-loading {
+    background-color: #1d1c29 !important;
+}
+
+.date {
+    display: none;
+}
+
+/* close button css from https://codepen.io/brissmyr/pen/egidw*/
+.geocoder-icon-close {
+    position: absolute;
+    right: 0 !important;
+    top: 0 !important;
+    width: 20px;
+    height: 20px;
+    opacity: 0.3;
+}
+
+.geocoder-icon-close:hover {
+    opacity: 1;
+}
+
+.geocoder-icon-close:before, .geocoder-icon-close:after {
+    position: absolute;
+    left: 0;
+    content: ' ';
+    height: 21px;
+    width: 2px;
+    background-color: #1d1c29;
+}
+
+.geocoder-icon-close:before {
+    background-color: #FFF;
+    transform: rotate(45deg);
+}
+
+.geocoder-icon-close:after {
+    background-color: #FFF;
+    transform: rotate(-45deg);
 }
