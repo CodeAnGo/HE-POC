@@ -2,11 +2,21 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoia3Jpc2RtIiwiYSI6ImNrMHFqdDk1bDA4cWozZ3BtYmxwd
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
+    //CODE FOR CENTERING MAP-----------------------ADD HERE LUKE
+    //----------------------------------------------------------
+    //----------------------------------------------------------
+    //----------------------------------------------------------
     center: [-0.118092, 51.509865],
+    //----------------------------------------------------------
     zoom: 8
 });
 
 map.on('load', function() {
+    //POSSIBLY ADD THIS. ADDING LAYER SHOULD ALREADY BE TAKEN CARE OF SO DON'T NEED WHOLE THING
+    //----------------------------------------------------------
+    //----------------------------------------------------------
+    //----------------------------------------------------------
+    //Cannot filter to 0 points. Creates invisible point to always be displayed
 	var features = [{
 		"type": "Feature",
 		"geometry": {
