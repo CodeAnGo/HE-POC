@@ -1,0 +1,90 @@
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+/* dateTime input box css
+TODO: look nicer*/
+.date {
+    width: 33.33333%;
+    min-width: 300px;
+    height: 40px;
+    margin: 0;
+    float: left;
+    clear: both;
+}
+
+.mapboxgl-ctrl-geocoder{
+  background-color: #1d1c29 !important;
+  opacity: 0.99;
+  margin-left: 50px;
+  border-color: #1d1c29 !important;
+
+}
+
+.mapbox-directions-origin {
+  border-radius: 5px;
+}
+.mapbox-directions-origin .mapbox-form-label{
+  background-color: #1d1c29 !important;
+
+}
+
+.mapboxgl-ctrl-geocoder input[type='text'] {
+  width: 90%;
+  color: white;
+  border-color: #1d1c29 !important;
+  background-color: #1d1c29 !important;
+}
+
+.mapbox-form-label {
+  width: 50px;
+  background: #1d1c29 !important;
+  line-height: 0px;
+}
+.mapbox-form-label .directions-icon {
+  width:50px !important;
+  margin-left: 3px;
+  border-radius: 5px;
+}
+
+.directions-icon-depart {
+  height: 80px !important;
+  background-image: url(../img/A.png) !important;
+  background-size: 47px 79px;
+}
+
+.directions-icon-arrive {
+  display: none;
+}
+
+.directions-control{
+  color: grey !important;
+}
+
+.directions-reverse {
+  border-radius: 5px !important;
+  opacity: 0.9;
+  left: 250px;
+  }
+
+.mapbox-form-label{
+  color:#1d1c29 !important;
+}
+
+.suggestions{
+  background-color: #1d1c29 !important;
+}
+
+.geocoder-icon-close, .geocoder-icon-loading{
+  background-color:  #1d1c29 !important;
+}
+
+.date{
+  display: none;
+}

@@ -1,0 +1,56 @@
+.marker-info-box {
+    padding: 15px;
+    margin: 15px;
+    width: 400px;
+    max-height: 100%;
+    background-color: #FFFFFF;
+    overflow-y: auto;
+}
+
+/* resize mapboxgl-ctrl docking points to allow full height infobox*/
+.mapboxgl-ctrl-top-right, .mapboxgl-ctrl-top-left {
+    height: 100%;
+}
+
+/* highlighted event time information in schedule
+TODO: rename*/
+.event {
+    background-color: #78bced;
+    padding: 5px 10px 3px 10px;
+    margin-top: 10px;
+}
+
+.green {
+    background-color: #2bda26;
+}
+
+.yellow {
+    background-color: #FFFF00;
+}
+
+.red {
+    background-color: #ff0f0f;
+}
+
+.row {
+    display: table-row
+}
+
+/* formating for lane class used in getLanesHTML
+TODO: re style all of below to look nicer*/
+.lane {
+    margin: 4px;
+    padding: 4px ;
+    height: 100px;
+    text-align: center;
+    border-radius: 5px;
+    display: inline-block;
+}
+
+.lane h5 {
+    height: 50px;
+}
+
+.lane p {
+    height: 50px;
+}

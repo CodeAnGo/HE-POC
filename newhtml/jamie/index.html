@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Highways England - Mapbox</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css" type="text/css" />
+
+    <script type="text/javascript" src="assets/getToBounds.json"></script>
+
+    <script type="text/javascript" src="assets/scripts/infobox.js"></script>
+    <script type="text/javascript" src="assets/scripts/map.js"></script>
+    <script type="text/javascript" src="assets/scripts/markers.js"></script>
+    <script type="text/javascript" src="assets/scripts/util.js"></script>
+
+    <link rel="stylesheet" href="assets/stylesheets/calendar.css" />
+    <link rel="stylesheet" href="assets/stylesheets/infobox.css" />
+    <link rel="stylesheet" href="assets/stylesheets/main.css" />
+    <link rel="stylesheet" href="assets/stylesheets/marker.css" />
+
+</head>
+
+<body>
+    <!-- Date: <input type="datetime-local" name="date" id="date" onchange="displayDateFeatures()"> -->
+    <div id="map"></div>
+
+
+    <script>
+
+        //initialise markers
+        var markers = []
+
+        //draw map
+        mapboxgl.accessToken = "pk.eyJ1IjoidGhvbWFzLXBldHR5IiwiYSI6ImNrMHFrZzJ1NzAxY3czaGpyNGFjN3ZhaHkifQ.w6xCB2kszwQZeE2jJR-zrg";
+        var map = new mapboxgl.Map({
+            container: "map",
+            style: "mapbox://styles/mapbox/streets-v11",
+            center: [-1.47, 52.56], //starting pos [lng, lat]
+            zoom: 6.8
+        });
+        map.on('load', displayDateFeatures);
+
+        //draw directions
+        var directionAPI = new MapboxDirections({
+            profile: 'mapbox/driving',
+            accessToken: mapboxgl.accessToken,
+            controls: {
+                profileSwitcher: false
+            },
+            interactive: false
+        })
+        map.addControl(directionAPI, 'top-left');
+
+        //add date control
+        var dateControl = new DateControl();
+        map.addControl(dateControl, 'top-left');
+
+        //set up current date and time in date box
+        Date.prototype.toDateInputValue = (function() {
+            var local = new Date(this);
+            local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+            return local.toJSON().slice(0, 16);
+        });
+        document.getElementById('date').value = new Date().toDateInputValue();
+
+        //add my control
+        var test = new InfoControl("");
+        map.addControl(test, 'top-right');
+
+        //when route is input only display features on route
+        directionAPI.on("route", displayFeaturesOnRoute);
+
+    </script>
+
+</body>
+
+</html>
