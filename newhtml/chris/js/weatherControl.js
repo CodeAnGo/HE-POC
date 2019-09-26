@@ -55,6 +55,9 @@ mapDirections.on('route', function(e) {
 		getWeather(latlong, document.getElementById('dateselect').value, feature.properties.distance);
 	});
 	
+	//var latlong = features[15].geometry.coordinates[0] + ',' + features[15].geometry.coordinates[1];
+	//getWeather(latlong, document.getElementById('dateselect').value, features[15].properties.distance);
+	
 	//Do something with time value
 	//May be out of sync as it waits for json to load from api
 });
@@ -110,10 +113,11 @@ function getWeather(latlong, date, distance) {
 	req.open('GET', url, true);
 	req.onload = function() {
 		var data = req.response;
-		if (data.data.hasOwnProperty('weather')) {
+		console.log(data);
+		if (data.data.hasOwnProperty('current_condition')) {
 			if (adverse(data)) {
 				//Adverse weather adds some time per mile
-				time += 1 * distance;
+				time += (10 * distance) / 60;
 			}
 		} else {
 			console.log(latlong);
@@ -123,12 +127,12 @@ function getWeather(latlong, date, distance) {
 }
 
 function adverse(data) {
-	console.log('precip: ' + data.data.currentCondition[0].precipMM);
-	console.log('vis: ' + data.data.currentCondition.visibility);
-	console.log('vis miles: ' + data.data.currentCondition.visibilityMiles);
+	console.log('precip: ' + data.data.current_condition[0].precipMM);
+	console.log('vis: ' + data.data.current_condition[0].visibility);
+	console.log('vis miles: ' + data.data.current_condition[0].visibilityMiles);
 	console.log('snow: ' + data.data.weather[0].totalSnow_cm);
 	console.log('');
-	if (data.data.currentCondition[0].precipMM > 2.5)
+	if (data.data.current_condition[0].precipMM > 2.5 || data.data.current_condition[0].visibilityMiles == 6)
 		return true;
 	return false;
 }
