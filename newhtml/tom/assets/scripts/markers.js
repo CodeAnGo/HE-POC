@@ -1,6 +1,12 @@
 //TODO: decide on feature/ marker naming convention
 //TODO: change functions to take set of data and filter out not relevant items, then create function to convert to featureCollection
 
+function displayLatLongMarker(latLong) {
+    var el = document.createElement("div");
+    el.className = 'marker marker-weather';
+    markers.push(new mapboxgl.Marker(el).setLngLat([latLong[1],latLong[0]]).addTo(map));
+}
+
 //takes in a featureCollection of markers with desription, fullClosure, fullClosure, lanes and periods properties and displays them on the map. Also adds clickEvent listener
 function displayMarkers(featureCollection) {
     // add markers to map
@@ -10,10 +16,10 @@ function displayMarkers(featureCollection) {
         var el = document.createElement("div");
         switch (marker.properties.fullClosure) {
             case false:
-                el.className = "marker marker-roadworks";
+                el.className = 'marker marker-roadworks';
                 break;
             case true:
-                el.className = "marker marker-closed";
+                el.className = 'marker marker-closed';
                 break;
         }
 
@@ -29,7 +35,7 @@ function displayMarkers(featureCollection) {
 
 //adds newFeature to the end of featureCollection and returns new collection
 function addFeature(featureCollection, newFeature) {
-    
+
     // push new feature to the collection
     featureCollection.push({
         "type": "Feature",
@@ -94,7 +100,10 @@ function displayFeaturesOnRoute(e) {
             featureCollection = featureCollection.concat(getFeaturesOnRoad(steps[i]));
         }
     }
+
     displayMarkers(featureCollection);
+
+    getDelayDueToWeather(steps);
 }
 
 //gets all current roadworks

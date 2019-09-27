@@ -2,6 +2,15 @@
     cursor: pointer;
 }
 
+.marker-weather {
+  background-image: url('../img/sun.png');
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .marker-roadworks {
     background-image: url('http://westewellandruxley.org.uk/wp-content/uploads/2016/06/Roadsigns.png');
     background-size: cover;
